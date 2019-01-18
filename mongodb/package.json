@@ -1,0 +1,34 @@
+{
+  "name": "mongodb-google",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terletski/module7.git"
+  },
+  "author": "Yauheni Tsiarletski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terletski/module7/issues"
+  },
+  "homepage": "https://github.com/terletski/module7#readme",
+  "dependencies": {
+    "body-parser": "^1.18.0",
+    "express": "^4.16.0",
+    "googleapis": "^27.0.0",
+    "mongoose": "^5.4.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9",
+    "eslint": "^5.11.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
