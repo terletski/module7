@@ -8,48 +8,48 @@ const client = new MongoClient(url, { useNewUrlParser: true });
 async function mongoDbMethods () {
   let method;
   client.connect(async function (err) {
-    if (err) { throw err; }
+    if (err) throw err;
     console.log(`Successful server connection`);
     const db = client.db(`usersdb`);
     if (argv.insertManyFromUsers) {
-      instertManyObjectsFromUsers(db);
       method = `insertManyFromUsers`;
+      instertManyObjectsFromUsers(db);
     }
     if (argv.insertManyFromCars) {
-      instertManyObjectsFromCars(db);
       method = `insertManyFromCars`;
+      instertManyObjectsFromCars(db);
     }
     if (argv.find) {
-      findObject(db);
       method = `find`;
+      findObject(db);
     }
     if (argv.findAll) {
-      findAllObjects(db);
       method = `findAll`;
+      findAllObjects(db);
     }
     if (argv.sort) {
-      sortObjects(db);
       method = `sort`;
+      sortObjects(db);
     }
     if (argv.deleteOne) {
-      deleteObject(db);
       method = `deleteOne`;
+      deleteObject(db);
     }
     if (argv.deleteMany) {
       deleteManyObjects(db);
       method = `deleteMany`;
     }
     if (argv.drop) {
-      deleteCollection(db);
       method = `drop`;
+      deleteCollection(db);
     }
     if (argv.updateOne) {
-      updateOneObject(db);
       method = `updateOne`;
+      updateOneObject(db);
     }
     if (argv.aggregate) {
-      joinObjectsInCollections(db);
       method = `aggregate`;
+      joinObjectsInCollections(db);
     }
     if (!method) {
       console.log(`Incorrect method`);

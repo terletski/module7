@@ -9,7 +9,7 @@ async function insertManyDocumentsFromUsers (db) {
   });
 }
 
-async function insertManyDocumentsFromCars (db) {
+async function insertManyDocumentsFromCars (db, res) {
   const collection = db.collection(`cars`);
   collection.insertMany(cars, function (err, result) {
     if (err) throw err;
@@ -97,7 +97,9 @@ async function joinCollections (db) {
     }
   ]).toArray(function (err, res) {
     if (err) throw err;
-    console.log(JSON.stringify(res));
+    const result = JSON.stringify(res);
+    console.log(result);
+    return result;
   });
 };
 
