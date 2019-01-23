@@ -1,5 +1,42 @@
-{
-    "model": "BMW",
-    "power": "300",
-    "color": "grey"
-}
+[
+    {
+        "modelName": "BMW",
+        "color": "Black"
+    },
+    {
+        "modelName": "AUDI",
+        "color": "Red"
+    },
+    {
+        "modelName": "Lada",
+        "color": "White"
+    },
+    {
+        "modelName": "Range",
+        "color": "White"
+    },
+    {
+        "modelName": "WV",
+        "color": "Red"
+    },
+    {
+        "modelName": "Honda",
+        "color": "Grey"
+    },
+    {
+        "modelName": "Acura",
+        "color": "Red"
+    },
+    {
+        "modelName": "Bentley",
+        "color": "Blue"
+    },
+    {
+        "modelName": "Bugatti",
+        "color": "Green"
+    },
+    {
+        "modelName": "Ferrari",
+        "color": "Red"
+    }
+]

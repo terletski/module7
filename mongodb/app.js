@@ -1,30 +1,18 @@
-/* eslint-disable handle-callback-err */
-const MongoClient = require(`mongodb`).MongoClient;
-const url = `mongodb://localhost:27017/`;
+const yargs = require(`yargs`);
+const createObject = require(`./mongoDBMethods`).createObject;
+const model = require(`./models/models`);
+const connect = require(`./mongodbConnection`);
 
-MongoClient.connect(url, function (err, db) {
-  if (err) throw err;
-  const dbo = db.db(`mydb`);
-  const myobj = [
-    { name: `John`, address: `Highway 71` },
-    { name: `Peter`, address: `Lowstreet 4` },
-    { name: `Amy`, address: `Apple st 652` },
-    { name: `Hannah`, address: `Mountain 21` },
-    { name: `Michael`, address: `Valley 345` },
-    { name: `Sandy`, address: `Ocean blvd 2` },
-    { name: `Betty`, address: `Green Grass 1` },
-    { name: `Richard`, address: `Sky st 331` },
-    { name: `Susan`, address: `One way 98` },
-    { name: `Vicky`, address: `Yellow Garden 2` },
-    { name: `Ben`, address: `Park Lane 38` },
-    { name: `William`, address: `Central st 954` },
-    { name: `Chuck`, address: `Main Road 989` },
-    { name: `Viola`, address: `Sideway 1633` }
-  ];
-  dbo.collection(`customers`).insertMany(myobj, function (err, res) {
-    if (err) throw err;
-    console.log(`Number of documents inserted: ` + res.insertedCount);
-    console.log(myobj);
-    db.close();
-  });
-});
+// eslint-disable-next-line no-unused-expressions
+yargs.command(`save`, `save data in user's collection`, {}, (argv) => {
+  let collection = createObject(argv);
+  let userModel = model.createModel(argv.collection, collection);
+  connect.saveModel(userModel);
+})
+  .command(`get`, `get data from user's collection`, {}, async (argv) => {
+    let users = model.getCollection(argv.collection);
+    let array = await connect.findObjectBy(users, argv.property, argv.value);
+    console.log(array);
+  })
+  .help()
+  .argv;
