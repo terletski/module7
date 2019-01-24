@@ -1,7 +1,9 @@
 const MongoClient = require(`mongodb`).MongoClient;
 const mongoDB = require(`./mongoDBMethods.js`);
 const argv = require(`yargs`).argv;
+const fs = require(`fs`);
 const url = `mongodb://localhost:27017/`;
+const json = `DB.json`;
 
 const client = new MongoClient(url, { useNewUrlParser: true });
 
@@ -14,47 +16,48 @@ async function mongoDbMethods () {
     if (argv.insertManyFromUsers) {
       method = `insertManyFromUsers`;
       instertManyObjectsFromUsers(db);
-    }
-    if (argv.insertManyFromCars) {
+    } else if (argv.insertManyFromCars) {
       method = `insertManyFromCars`;
       instertManyObjectsFromCars(db);
-    }
-    if (argv.find) {
+    } else if (argv.find) {
       method = `find`;
       findObject(db);
-    }
-    if (argv.findAll) {
+    } else if (argv.findAll) {
       method = `findAll`;
       findAllObjects(db);
-    }
-    if (argv.sort) {
+    } else if (argv.sort) {
       method = `sort`;
       sortObjects(db);
-    }
-    if (argv.deleteOne) {
+    } else if (argv.deleteOne) {
       method = `deleteOne`;
       deleteObject(db);
-    }
-    if (argv.deleteMany) {
+    } else if (argv.deleteMany) {
       deleteManyObjects(db);
       method = `deleteMany`;
-    }
-    if (argv.drop) {
+    } else if (argv.drop) {
       method = `drop`;
       deleteCollection(db);
-    }
-    if (argv.updateOne) {
+    } else if (argv.updateOne) {
       method = `updateOne`;
       updateOneObject(db);
-    }
-    if (argv.aggregate) {
+    } else if (argv.aggregate) {
       method = `aggregate`;
       joinObjectsInCollections(db);
-    }
-    if (!method) {
+    } else if (argv.writeToJson) {
+      method = `writeToJson`;
+      writeToJsonFromDB(db);
+    } else if (!method) {
       console.log(`Incorrect method`);
       client.close();
     }
+  });
+}
+
+async function writeToJsonFromDB (db) {
+  mongoDB.findAllDocuments(db, function (result) {
+    fs.existsSync(json) ? console.log(`${json} has been overwritten`) : console.log(`${json} was created`);
+    fs.writeFileSync(json, JSON.stringify(result));
+    client.close();
   });
 }
 

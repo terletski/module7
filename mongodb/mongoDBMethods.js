@@ -1,46 +1,51 @@
 const users = require(`./models/users.json`);
 const cars = require(`./models/cars.json`);
 
-async function insertManyDocumentsFromUsers (db) {
+async function insertManyDocumentsFromUsers (db, call) {
   const collection = db.collection(`users`);
   collection.insertMany(users, function (err, result) {
     if (err) throw err;
     console.log(result);
+    call(result);
   });
 }
 
-async function insertManyDocumentsFromCars (db, res) {
+async function insertManyDocumentsFromCars (db, call) {
   const collection = db.collection(`cars`);
   collection.insertMany(cars, function (err, result) {
     if (err) throw err;
     console.log(result);
+    call(result);
   });
 }
 
-async function findDocument (db) {
+async function findDocument (db, call) {
   const collection = db.collection(`users`);
   const query = { address: /^S/ };
   collection.find(query).toArray(function (err, result) {
     if (err) throw err;
     console.log(result);
+    call(result);
   });
 };
 
-async function findAllDocuments (db) {
+async function findAllDocuments (db, call) {
   const collection = db.collection(`users`);
   collection.find({}).toArray(function (err, result) {
     if (err) throw err;
     console.log(result);
+    call(result);
   });
 };
 
-async function sortDocuments (db) {
+async function sortDocuments (db, call) {
   const collection = db.collection(`users`);
   const mysort = { name: 1 };
   collection.find().sort(mysort).toArray(function (err, result) {
     if (err) throw err;
     console.log(`sort ascending was completed`);
     console.log(result);
+    call(result);
   });
 };
 
@@ -84,7 +89,7 @@ async function updateOneDocument (db) {
   });
 };
 
-async function joinCollections (db) {
+async function joinCollections (db, call) {
   const collection = db.collection(`users`);
   collection.aggregate([
     { $lookup:
@@ -99,7 +104,7 @@ async function joinCollections (db) {
     if (err) throw err;
     const result = JSON.stringify(res);
     console.log(result);
-    return result;
+    call(result);
   });
 };
 
