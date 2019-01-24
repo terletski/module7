@@ -1,18 +1,17 @@
-const yargs = require(`yargs`);
-const createObject = require(`./mongoDBMethods`).createObject;
-const model = require(`./models/models`);
-const connect = require(`./mongodbConnection`);
+const sheets = require(`./sheets.js`);
+const json = require(`./DB.json`);
 
-// eslint-disable-next-line no-unused-expressions
-yargs.command(`save`, `save data in user's collection`, {}, (argv) => {
-  let collection = createObject(argv);
-  let userModel = model.createModel(argv.collection, collection);
-  connect.saveModel(userModel);
-})
-  .command(`get`, `get data from user's collection`, {}, async (argv) => {
-    let users = model.getCollection(argv.collection);
-    let array = await connect.findObjectBy(users, argv.property, argv.value);
-    console.log(array);
-  })
-  .help()
-  .argv;
+function getTable () {
+  let array = [];
+  json.forEach(element => {
+    let lastArray = [];
+    for (let key in element) {
+      lastArray.push(element[key]);
+    }
+    array.push(lastArray);
+  });
+  console.log(array);
+  return array;
+}
+
+sheets.append(`A2:H`, getTable());

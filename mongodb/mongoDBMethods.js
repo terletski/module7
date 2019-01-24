@@ -99,11 +99,12 @@ async function joinCollections (db, call) {
          foreignField: `name`,
          as: `cardetails`
        }
-    }
+    },
+    { $replaceRoot: { newRoot: { $mergeObjects: [ { $arrayElemAt: [ `$cardetails`, 0 ] }, `$$ROOT` ] } } },
+    { $project: { cardetails: 0 } }
   ]).toArray(function (err, res) {
     if (err) throw err;
     const result = JSON.stringify(res);
-    console.log(result);
     call(result);
   });
 };

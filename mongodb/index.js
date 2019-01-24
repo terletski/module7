@@ -54,9 +54,10 @@ async function mongoDbMethods () {
 }
 
 async function writeToJsonFromDB (db) {
-  mongoDB.findAllDocuments(db, function (result) {
+  mongoDB.joinCollections(db, function (result) {
     fs.existsSync(json) ? console.log(`${json} has been overwritten`) : console.log(`${json} was created`);
-    fs.writeFileSync(json, JSON.stringify(result));
+    fs.writeFileSync(json, result);
+    console.log(result);
     client.close();
   });
 }
