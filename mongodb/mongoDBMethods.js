@@ -69,7 +69,7 @@ async function deleteManyDocuments (db) {
   });
 };
 
-const dropCollection = function (db) {
+async function dropCollection (db) {
   const collection = db.collection(`users`);
   collection.drop(function (err, delOK) {
     if (err) throw err;
@@ -91,6 +91,7 @@ async function updateOneDocument (db) {
 
 async function joinCollections (db, call) {
   const collection = db.collection(`users`);
+  const mysort = { name: 1 };
   collection.aggregate([
     { $lookup:
        {
@@ -102,7 +103,7 @@ async function joinCollections (db, call) {
     },
     { $replaceRoot: { newRoot: { $mergeObjects: [ { $arrayElemAt: [ `$cardetails`, 0 ] }, `$$ROOT` ] } } },
     { $project: { cardetails: 0 } }
-  ]).toArray(function (err, res) {
+  ]).sort(mysort).toArray(function (err, res) {
     if (err) throw err;
     const result = JSON.stringify(res);
     call(result);
