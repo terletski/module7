@@ -1,9 +1,12 @@
 const { authorize, google } = require(`./config`);
 const fs = require(`fs`);
 
-// Change it with your id.
 const spreadsheetId = `1mok1ObFRhS8jqP9KQ_MdHvpyFQr7ehsen_KWd8dtHIA`;
 
+/**
+ * Sheet Url:
+ * @see https://docs.google.com/spreadsheets/d/1mok1ObFRhS8jqP9KQ_MdHvpyFQr7ehsen_KWd8dtHIA/edit#gid=0
+ */
 const append = (range, values) => {
   fs.readFile(`client_secret.json`, (err, content) => {
     if (err) return console.log(`Error loading client secret file:`, err);
