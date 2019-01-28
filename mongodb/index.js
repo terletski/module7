@@ -3,7 +3,7 @@ const mongoDB = require(`./mongoDBMethods.js`);
 const argv = require(`yargs`).argv;
 const fs = require(`fs`);
 const url = `mongodb://localhost:27017/`;
-const json = `DB.json`;
+const dbJson = `DB.json`;
 
 const client = new MongoClient(url, { useNewUrlParser: true });
 
@@ -55,8 +55,8 @@ async function mongoDbMethods () {
 
 async function writeToJsonFromDB (db) {
   mongoDB.joinCollections(db, function (result) {
-    fs.existsSync(json) ? console.log(`${json} has been overwritten`) : console.log(`${json} was created`);
-    fs.writeFileSync(json, result);
+    fs.existsSync(dbJson) ? console.log(`${dbJson} has been overwritten`) : console.log(`${dbJson} was created`);
+    fs.writeFileSync(dbJson, result);
     console.log(result);
     client.close();
   });

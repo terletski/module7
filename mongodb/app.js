@@ -14,4 +14,4 @@ function getTable () {
   return array;
 }
 
-sheets.append(`A2:H`, getTable());
+sheets.writeToSheets(`A2:H`, getTable());

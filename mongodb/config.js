@@ -20,6 +20,7 @@ const authorize = function (credentials, callback) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
+    // console.log(oAuth2Client)
     callback(oAuth2Client);
   });
 };
