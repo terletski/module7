@@ -1,58 +1,52 @@
 [
     {
         "name": "John",
-        "address": "Highway 71"
+        "address": "Highway 71",
+        "user_id": 1
     },
     {
         "name": "Peter",
-        "address": "Lowstreet 4"
+        "address": "Lowstreet 4",
+        "user_id": 2
     },
     {
         "name": "Amy",
-        "address": "Apple st 652"
+        "address": "Apple st 652",
+        "user_id": 3
     },
     {
         "name": "Hannah",
-        "address": "Mountain 21"
+        "address": "Mountain 21",
+        "user_id": 4
     },
     {
         "name": "Michael",
-        "address": "Valley 345"
+        "address": "Valley 345",
+        "user_id": 5
     },
     {
         "name": "Sandy",
-        "address": "Ocean blvd 2"
+        "address": "Ocean blvd 2",
+        "user_id": 6
     },
     {
         "name": "Betty",
-        "address": "Green Grass 1"
+        "address": "Green Grass 1",
+        "user_id": 7
     },
     {
         "name": "Richard",
-        "address": "Sky st 331"
+        "address": "Sky st 331",
+        "user_id": 8
     },
     {
         "name": "Susan",
-        "address": "One way 98"
+        "address": "One way 98",
+        "user_id": 9
     },
     {
         "name": "Vicky",
-        "address": "Yellow Garden 2"
-    },
-    {
-        "name": "Ben",
-        "address": "Park Lane 38"
-    },
-    {
-        "name": "William",
-        "address": "Central st 954"
-    },
-    {
-        "name": "Chuck",
-        "address": "Main Road 989"
-    },
-    {
-        "name": "Viola",
-        "address": "Sideway 1633"
+        "address": "Yellow Garden 2",
+        "user_id": 10
     }
 ]

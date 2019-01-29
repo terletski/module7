@@ -57,7 +57,6 @@ async function writeToJsonFromDB (db) {
   mongoDB.joinCollections(db, function (result) {
     fs.existsSync(dbJson) ? console.log(`${dbJson} has been overwritten`) : console.log(`${dbJson} was created`);
     fs.writeFileSync(dbJson, result);
-    console.log(result);
     client.close();
   });
 }

@@ -96,8 +96,8 @@ async function joinCollections (db, call) {
     { $lookup:
        {
          from: `cars`,
-         localField: `modelName`,
-         foreignField: `name`,
+         localField: `user_id`,
+         foreignField: `user_id`,
          as: `cardetails`
        }
     },
@@ -106,6 +106,7 @@ async function joinCollections (db, call) {
   ]).sort(mysort).toArray(function (err, res) {
     if (err) throw err;
     const result = JSON.stringify(res);
+    console.log(result);
     call(result);
   });
 };
