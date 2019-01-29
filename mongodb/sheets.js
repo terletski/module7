@@ -1,7 +1,5 @@
 const { authorize, google } = require(`./config`);
 const fs = require(`fs`);
-const sheetsJson = `SHEETS.json`;
-
 const spreadsheetId = `1mok1ObFRhS8jqP9KQ_MdHvpyFQr7ehsen_KWd8dtHIA`;
 
 /**
@@ -9,7 +7,7 @@ const spreadsheetId = `1mok1ObFRhS8jqP9KQ_MdHvpyFQr7ehsen_KWd8dtHIA`;
  * @see https://docs.google.com/spreadsheets/d/1mok1ObFRhS8jqP9KQ_MdHvpyFQr7ehsen_KWd8dtHIA/edit#gid=0
  */
 const writeToSheets = (range, values) => {
-  fs.readFile(`client_secret.json`, (err, content) => {
+  fs.readFile(`./authData/client_secret.json`, (err, content) => {
     if (err) return console.log(`Error loading client secret file:`, err);
     // Authorize a client with credentials, then call the Google Sheets API.
     authorize(JSON.parse(content), (auth) => {
@@ -30,7 +28,7 @@ const writeToSheets = (range, values) => {
 };
 
 const readFromSheets = () => {
-  fs.readFile(`client_secret.json`, (err, content) => {
+  fs.readFile(`./authData/client_secret.json`, (err, content) => {
     if (err) return console.log(`Error loading client secret file:`, err);
     // Authorize a client with credentials, then call the Google Sheets API.
     authorize(JSON.parse(content), (auth) => {
@@ -52,7 +50,7 @@ const readFromSheets = () => {
     });
   });
 }
-readFromSheets();
+
 module.exports = {
   writeToSheets,
   readFromSheets

@@ -1,9 +1,7 @@
 const MongoClient = require(`mongodb`).MongoClient;
 const mongoDB = require(`./mongoDBMethods.js`);
 const argv = require(`yargs`).argv;
-const fs = require(`fs`);
 const url = `mongodb://localhost:27017/`;
-const dbJson = `DB.json`;
 
 const client = new MongoClient(url, { useNewUrlParser: true });
 
@@ -40,12 +38,9 @@ async function mongoDbMethods () {
     } else if (argv.updateOne) {
       method = `updateOne`;
       updateOneObject(db);
-    } else if (argv.aggregate) {
-      method = `aggregate`;
-      joinObjectsInCollections(db);
-    } else if (argv.writeToJson) {
-      method = `writeToJson`;
-      writeToJsonFromDB(db);
+    } else if (argv.writeToGoogleSheets) {
+      method = `writeToGoogleSheets`;
+      writeToGoogleSheets(db);
     } else if (!method) {
       console.log(`Incorrect method`);
       client.close();
@@ -53,10 +48,9 @@ async function mongoDbMethods () {
   });
 }
 
-async function writeToJsonFromDB (db) {
-  mongoDB.joinCollections(db, function (result) {
-    fs.existsSync(dbJson) ? console.log(`${dbJson} has been overwritten`) : console.log(`${dbJson} was created`);
-    fs.writeFileSync(dbJson, result);
+async function writeToGoogleSheets (db) {
+  mongoDB.joinCollections(db, function () {
+    console.log(`Success!`);
     client.close();
   });
 }
@@ -111,12 +105,6 @@ async function deleteCollection (db) {
 
 async function updateOneObject (db) {
   mongoDB.updateOneDocument(db, function () {
-    client.close();
-  });
-};
-
-async function joinObjectsInCollections (db) {
-  mongoDB.joinCollections(db, function () {
     client.close();
   });
 };

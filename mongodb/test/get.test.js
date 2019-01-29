@@ -2,11 +2,12 @@ const chai = require(`chai`);
 const expect = chai.expect;
 const testDB = require(`../DB.json`);
 const testSheets = require(`../SHEETS.json`);
-const fs = require(`fs`);
-// const testSheets = require(`../SHEETS.json`);
-const sendRequest = require(`../sheets`).readFromSheets;
+const sendRequest = require(`../sheets`);
 
-describe(`Does the data match`, () => {
+describe(`Does the data match`, async () => {
+    beforeEach(() => {
+        sendRequest.readFromSheets();
+    })
     console.log(`Start tests`);
     it('should equal data from Google Sheets and DB', () => {
         const testDbParse = JSON.stringify(testDB, null);

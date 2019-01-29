@@ -1,7 +1,8 @@
 const users = require(`./models/users.json`);
 const cars = require(`./models/cars.json`);
+const sheets = require(`./sheets.js`);
 
-async function insertManyDocumentsFromUsers (db, call) {
+async function insertManyDocumentsFromUsers(db, call) {
   const collection = db.collection(`users`);
   collection.insertMany(users, function (err, result) {
     if (err) throw err;
@@ -10,7 +11,7 @@ async function insertManyDocumentsFromUsers (db, call) {
   });
 }
 
-async function insertManyDocumentsFromCars (db, call) {
+async function insertManyDocumentsFromCars(db, call) {
   const collection = db.collection(`cars`);
   collection.insertMany(cars, function (err, result) {
     if (err) throw err;
@@ -19,7 +20,7 @@ async function insertManyDocumentsFromCars (db, call) {
   });
 }
 
-async function findDocument (db, call) {
+async function findDocument(db, call) {
   const collection = db.collection(`users`);
   const query = { address: /^S/ };
   collection.find(query).toArray(function (err, result) {
@@ -29,7 +30,7 @@ async function findDocument (db, call) {
   });
 };
 
-async function findAllDocuments (db, call) {
+async function findAllDocuments(db, call) {
   const collection = db.collection(`users`);
   collection.find({}).toArray(function (err, result) {
     if (err) throw err;
@@ -38,7 +39,7 @@ async function findAllDocuments (db, call) {
   });
 };
 
-async function sortDocuments (db, call) {
+async function sortDocuments(db, call) {
   const collection = db.collection(`users`);
   const mysort = { name: 1 };
   collection.find().sort(mysort).toArray(function (err, result) {
@@ -49,7 +50,7 @@ async function sortDocuments (db, call) {
   });
 };
 
-async function deleteDocument (db) {
+async function deleteDocument(db) {
   const collection = db.collection(`users`);
   const myquery = { address: `Mountain 21` };
   collection.deleteOne(myquery, function (err) {
@@ -59,7 +60,7 @@ async function deleteDocument (db) {
   });
 };
 
-async function deleteManyDocuments (db) {
+async function deleteManyDocuments(db) {
   const collection = db.collection(`users`);
   const myquery = { address: /^O/ };
   collection.deleteMany(myquery, function (err, obj) {
@@ -69,7 +70,7 @@ async function deleteManyDocuments (db) {
   });
 };
 
-async function dropCollection (db) {
+async function dropCollection(db) {
   const collection = db.collection(`users`);
   collection.drop(function (err, delOK) {
     if (err) throw err;
@@ -77,7 +78,7 @@ async function dropCollection (db) {
   });
 };
 
-async function updateOneDocument (db) {
+async function updateOneDocument(db) {
   const collection = db.collection(`users`);
   const myquery = { address: `Sky st 331` };
   const newValues = { $set: { name: `Mickey`, address: `Canyon 123` } };
@@ -88,28 +89,54 @@ async function updateOneDocument (db) {
     console.log(`1 document updated: ${myQueryJSON} changed to ${myNewValueJSON}`);
   });
 };
-
-async function joinCollections (db, call) {
+// join collections, sort by name order and write to Google Sheets
+async function joinCollections(db) {
   const collection = db.collection(`users`);
   const mysort = { name: 1 };
   collection.aggregate([
-    { $lookup:
-       {
-         from: `cars`,
-         localField: `user_id`,
-         foreignField: `user_id`,
-         as: `cardetails`
-       }
+    {
+      $lookup:
+      {
+        from: `cars`,
+        localField: `user_id`,
+        foreignField: `user_id`,
+        as: `cardetails`
+      }
     },
-    { $replaceRoot: { newRoot: { $mergeObjects: [ { $arrayElemAt: [ `$cardetails`, 0 ] }, `$$ROOT` ] } } },
+    { $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: [`$cardetails`, 0] }, `$$ROOT`] } } },
     { $project: { cardetails: 0 } }
   ]).sort(mysort).toArray(function (err, res) {
     if (err) throw err;
-    const result = JSON.stringify(res);
-    console.log(result);
-    call(result);
+    getData(res);
   });
 };
+
+async function getBody(res) {
+  let arrayBody = [];
+  res.forEach(element => {
+    let lastArray = [];
+    for (let key in element) {
+      lastArray.push(element[key]);
+    }
+    arrayBody.push(lastArray);
+  });
+  return arrayBody;
+}
+
+async function getTitle(res) {
+  let arrayTitle = [];
+  for (let key in res[0]) {
+    arrayTitle.push(key);
+  }
+  return arrayTitle;
+}
+
+async function getData(res) {
+  const body = await getBody(res);
+  const title = await getTitle(res);
+  body.unshift(title);
+  sheets.writeToSheets(`A1:H`, body);
+}
 
 module.exports = {
   insertManyDocumentsFromUsers,
