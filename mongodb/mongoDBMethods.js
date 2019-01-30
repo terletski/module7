@@ -136,6 +136,7 @@ async function getData(res) {
   const title = await getTitle(res);
   body.unshift(title);
   sheets.writeToSheets(`A1:H`, body);
+  return body;
 }
 
 module.exports = {
@@ -148,5 +149,6 @@ module.exports = {
   deleteManyDocuments,
   dropCollection,
   updateOneDocument,
-  joinCollections
+  joinCollections,
+  getData
 };

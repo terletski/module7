@@ -1,19 +1,21 @@
 const chai = require(`chai`);
 const expect = chai.expect;
-const testDB = require(`../DB.json`);
-const testSheets = require(`../SHEETS.json`);
 const sendRequest = require(`../sheets`);
+const readFromDb = require(`../mongoDBMethods`);
+const MongoClient = require(`mongodb`).MongoClient;
+const url = `mongodb://localhost:27017/`;
+const client = new MongoClient(url, { useNewUrlParser: true });
 
-describe(`Does the data match`, async () => {
-    beforeEach(() => {
-        sendRequest.readFromSheets();
-    })
+describe(`Does the data match`, () => {
     console.log(`Start tests`);
-    it('should equal data from Google Sheets and DB', () => {
-        const testDbParse = JSON.stringify(testDB, null);
-        const testSheetsParse = JSON.stringify(testSheets, null);
-        console.log(`111${testSheetsParse}111`);
-        console.log(`222${testDbParse}222`);
-        expect(testSheetsParse).to.contain(testDbParse, `Data do not match`);
+    it('should equal data from Google Sheets and DB', async () => {
+        client.connect();
+        const db = client.db(`usersdb`);
+        // const dataFromSheets = await sendRequest.readFromSheets();
+        const dataFromSheets = 1;
+        const dataFromDb = await readFromDb.joinCollections(db);
+        console.log(`111${await dataFromSheets}111`);
+        console.log(`222${await dataFromDb}222`);
+        expect(dataFromSheets).to.contain(dataFromDb, `Data do not match`);
     });
 });   

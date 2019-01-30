@@ -5,7 +5,7 @@ const url = `mongodb://localhost:27017/`;
 
 const client = new MongoClient(url, { useNewUrlParser: true });
 
-async function mongoDbMethods () {
+async function mongoDbMethods() {
   let method;
   client.connect(async function (err) {
     if (err) throw err;
@@ -48,62 +48,62 @@ async function mongoDbMethods () {
   });
 }
 
-async function writeToGoogleSheets (db) {
+async function writeToGoogleSheets(db) {
   mongoDB.joinCollections(db, function () {
     console.log(`Success!`);
     client.close();
   });
 }
 
-async function instertManyObjectsFromUsers (db) {
+async function instertManyObjectsFromUsers(db) {
   mongoDB.insertManyDocumentsFromUsers(db, function () {
     client.close();
   });
 };
 
-async function instertManyObjectsFromCars (db) {
+async function instertManyObjectsFromCars(db) {
   mongoDB.insertManyDocumentsFromCars(db, function () {
     client.close();
   });
 };
 
-async function findObject (db) {
+async function findObject(db) {
   mongoDB.findDocument(db, function () {
     client.close();
   });
 };
 
-async function findAllObjects (db) {
+async function findAllObjects(db) {
   mongoDB.findAllDocuments(db, function () {
     client.close();
   });
 };
 
-async function sortObjects (db) {
+async function sortObjects(db) {
   mongoDB.sortDocuments(db, function () {
     client.close();
   });
 };
 
-async function deleteObject (db) {
+async function deleteObject(db) {
   mongoDB.deleteDocument(db, function () {
     client.close();
   });
 };
 
-async function deleteManyObjects (db) {
+async function deleteManyObjects(db) {
   mongoDB.deleteManyDocuments(db, function () {
     client.close();
   });
 };
 
-async function deleteCollection (db) {
+async function deleteCollection(db) {
   mongoDB.dropCollection(db, function () {
     client.close();
   });
 };
 
-async function updateOneObject (db) {
+async function updateOneObject(db) {
   mongoDB.updateOneDocument(db, function () {
     client.close();
   });

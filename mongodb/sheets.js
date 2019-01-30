@@ -40,9 +40,7 @@ const readFromSheets = () => {
         if (err) return console.log('The API returned an error: ' + err);
         const rows = res.data.values;
         if (rows.length) {
-          const data = { rows, toString: () => rows };
-          const dataString = JSON.stringify(data);
-          fs.writeFileSync(sheetsJson, dataString);
+          return rows;
         } else {
           console.log('No data found.');
         }
